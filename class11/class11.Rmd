@@ -125,3 +125,98 @@ b <- blast.pdb(aa)
 hits <- plot(b)
 ```
 
+
+# Fix the section that needs simplifing
+
+```{r}
+# Load the package
+library("bio3d.view")
+
+```
+
+```{r}
+view.pdb(atom.select(pdb, "protein", value = TRUE), "overview", col="sse")
+```
+
+```{r}
+view.pdb(atom.select(pdb, "ligand", value = TRUE), "overview", col="sse")
+```
+
+
+Or tiddyverse style...
+
+```{r}
+library(tidyverse)
+
+pdb %>% atom.select(string="ligand", value=TRUE) %>% view.pdb()
+```
+
+```{r}
+library(rgl)
+view.pdb(pdb, "overview", col="sse")
+rglwidget()
+```
+
+
+## Lets just try NMA
+
+Here we will take a PDB structure from the database and perforem NMA
+
+```{r}
+p <- read.pdb("1hel")
+modes <- nma(p)
+```
+
+```{r}
+plot(modes)
+```
+
+
+
+```{r}
+m7 <- mktrj(modes, mode=7, file="mode_7.pdb")
+view.xyz(m7, col=vec2color(rmsf(m7)))
+
+```
+
+```{r}
+view.nma <- function(modes, mode=7) { 
+  m <- mktrj(modes, mode=mode)
+  view.xyz(m, col=vec2color(rmsf(m)))
+}
+```
+
+```{r}
+view.nma(modes, 7)
+```
+
+```{r}
+ids <- c("1TND_B","1AGR_A","1TAG_A","1GG2_A","1KJY_A","4G5Q_A")
+files <- get.pdb(ids, split = TRUE)
+
+```
+
+```{r}
+pdbs <- pdbaln(files, fit = TRUE)
+
+```
+
+```{r}
+pc.xray <- pca(pdbs)
+
+```
+
+```{r}
+plot(pc.xray)
+```
+
+```{r}
+# Visualize first principal component
+pc1 <- mktrj(pc.xray, pc=1, file="pc_1.pdb")
+
+```
+
+```{r}
+view.xyz(pc1)
+```
+
