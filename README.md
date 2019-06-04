@@ -8,4 +8,6 @@ This is my classwork from [BIMM143 Spring 2019](https://bioboot.github.io/bimm14
 
 - class 07: Some thing else here
 
-- class 08: 
+- class 08:
+and some txt
+and more txt
